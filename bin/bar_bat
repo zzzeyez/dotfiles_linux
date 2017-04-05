@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# Options
+width="31"
+height="12"
+font="-benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO8859-1"
+
+# Get monitor width so we can center the bar.
+resolution="$(xrandr --nograb --current | awk '/\*/ {printf $1; exit}')"
+monitor_width="${resolution/x*}"
+offset="$((monitor_width / 2 - width + 101))"
+geometry="${width}x${height}+${offset:-860}+6"
+
+battery() {
+	cat /sys/class/power_supply/BAT0/capacity
+}
+
+while :; do
+	BAR="%{c}$(battery)%"
+	echo -e $BAR
+	sleep 1
+done |\
+
+
+# Launch lemonbar.
+lemonbar -d -g "$geometry" -f "$font" -B "${1:-#202020}" -F "${2:-#ffffffff}" -n "bar_bat" # &
+
+# Move lemonbar down a layer since '-d' on i3 has an always on top side-effect.
+sleep 0
+xdo lower -a "bar_bat"
+

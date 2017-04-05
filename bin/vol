@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# Change volume and display notification
+#
+# Created by Daniel Neemann
+#
+# Depends on: pamixer, libnotify (patched)
+#
+
+n=$(pamixer --get-mute)
+
+	if [ "$n" = "true" ]; then
+	    notify.sh -r 1 -t 0 "Volume muted"
+	else
+		notify.sh -r 1 -t 0 "Volume $(pamixer --get-volume)"
+	fi
+
+

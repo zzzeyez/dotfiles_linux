@@ -1,0 +1,234 @@
+# Should you change your keyboard layout some time, delete
+# this file and re-run i3-config-wizard(1).
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+
+# Default font / This also affects titlebar size
+	font pango:SFNS Display 16
+
+
+#i3wm
+	# gaps
+	smart_borders on
+	gaps inner 30
+	gaps outer 80
+	
+
+	# titlebar
+	for_window [class=".*"] title_format "<span font='Lemon 8'>   >  %title</span>"
+
+
+	# change colors
+	bindsym $mod+0 exec --no-startup-id "cat ~/.config/i3/lightconfig > ~/.config/i3/config && i3-msg reload"
+	bindsym $mod+Shift+0 exec --no-startup-id "cat ~/.config/i3/darkconfig > ~/.config/i3/config && i3-msg reload"
+
+
+	# exec dark bar top
+	bindsym $mod+Shift+8 exec --no-startup-id "$HOME/.Scripts/bar"
+	# exec dark bar bottom
+	bindsym $mod+8 exec --no-startup-id "$HOME/.Scripts/bar_b"
+	# exec light bar top
+	bindsym $mod+Shift+9 exec --no-startup-id "$HOME/.Scripts/lightbar"
+	# exec light bar bottom
+	bindsym $mod+9 exec --no-startup-id "$HOME/.Scripts/lightbar_b"
+
+
+	# get colors from xresources
+	# set_from_resource $bgfoc i3wm.color7 #f0f0f0
+	# set_from_resource $bg i3wm.color6 #f0f0f0
+	# set_from_resource $txt i3wm.color8 #f0f0f0
+	# set_from_resource $txtfoc i3wm.color0 #f0f0f0
+
+	
+	# manual colors light
+	#set $bg #E4E4E4
+	#set $txt #777777
+	#set_from_resource $txt i3wm.color8 #f0f0f0
+	#set $bgfoc #F1F0F1
+	#set_from_resource $txtfoc i3wm.color0 #f0f0f0	
+	#set $txtfoc #666666
+
+
+	# manual colors dark
+	set $bg #222222
+	#set $txt #777777
+	set $bgfoc #333333
+	#set $txtfoc #999999
+	set_from_resource $txt i3wm.color8 #f0f0f0
+	set_from_resource $txtfoc i3wm.color7 #f0f0f0	
+
+
+	# class                 border  backgr. text    indicator child_border
+	client.focused          $bgfoc  $bgfoc  $txtfoc $bgfoc    $bgfoc
+	client.focused_inactive $bg     $bg     $txt    $bg       $bg
+	client.unfocused        $bg     $bg     $txt    $bg       $bg
+	client.urgent           $bg     $bg     $txt    $bg       $bg
+	client.placeholder      $bg     $bg     $txt    $bg       $bg
+	client.background       $bg
+
+
+	# border
+	for_window [class="^.*"] border normal 0
+
+
+# Mod button
+	set $mod control
+
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+	floating_modifier $mod
+
+
+# start a terminal
+	bindsym $mod+Return exec urxvt
+
+
+# kill focused window
+	bindsym $mod+q kill
+
+
+# change focus
+	bindsym $mod+Left focus left
+	bindsym $mod+Down focus down
+	bindsym $mod+Up focus up
+	bindsym $mod+Right focus right
+
+
+# Alt-tab behavior
+	bindsym $mod+Tab workspace next
+
+
+# move focused window
+	bindsym $mod+Shift+Left move left
+	bindsym $mod+Shift+Down move down
+	bindsym $mod+Shift+Up move up
+	bindsym $mod+Shift+Right move right
+
+
+# split in horizontal orientation
+	bindsym $mod+Shift+h split h
+
+
+# split in vertical orientation
+	bindsym $mod+Shift+v split v
+
+
+# enter fullscreen mode for the focused container
+	bindsym $mod+Shift+f fullscreen toggle
+
+
+# change container layout (stacked, tabbed, toggle split)
+	bindsym $mod+5 layout stacking
+	bindsym $mod+6 layout tabbed
+	bindsym $mod+7 layout toggle split
+
+
+# Toggle sticky windows
+	bindsym $mod+Shift+e sticky toggle
+
+
+# Auto float
+	for_window [class="^.*"] floating enable
+
+
+# toggle tiling / floating
+	bindsym $mod+Shift+space floating toggle
+
+
+# change focus between tiling / floating windows
+	#bindsym $mod+space focus mode_toggle
+
+
+# focus the parent container
+	bindsym $mod+Shift+a focus parent
+
+
+# focus the child container
+	bindsym $mod+Shift+d focus child
+
+
+# switch to workspace
+	bindsym $mod+1 workspace 1
+	bindsym $mod+2 workspace 2
+	bindsym $mod+3 workspace 3
+	bindsym $mod+4 workspace 4
+
+	
+# move focused container to workspace
+	bindsym $mod+Shift+1 move container to workspace 1
+	bindsym $mod+Shift+2 move container to workspace 2
+	bindsym $mod+Shift+3 move container to workspace 3
+	bindsym $mod+Shift+4 move container to workspace 4
+
+
+# reload the configuration file
+	bindsym $mod+Shift+c reload
+
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+	bindsym $mod+Shift+x restart
+
+
+
+# resize window (you can also use the mouse for that)
+	mode "resize" {
+
+        # These bindings trigger as soon as you enter the resize mode
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+	
+	}
+
+	bindsym $mod+Shift+r mode "resize"
+
+
+#Volume Control
+#
+	bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+	bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+	bindsym XF86AudioPlay exec --no-startup-id cmus-remote -u
+	bindsym XF86AudioNext exec --no-startup-id cmus-remote -n
+	bindsym XF86AudioPrev exec --no-startup-id cmus-remote -r
+
+
+#File Manager
+	bindsym $mod+n exec thunar
+
+#Rofi
+	bindsym $mod+space exec rofi -show run -width 1440 -location 0 -lines 4 -bw 0 -font "Fira Code 28" -padding 400 -separator-style none  -opacity 95
+
+
+#Wallpaper
+	exec --no-startup-id /home/zzzeyez/.Scripts/wal-master/wal -i "$(< "${HOME}/.cache/wal/wal")"
+	bindsym $mod+Shift+w exec --no-startup-id "/$HOME/.Scripts/wal-master/wal -i $HOME/Pictures/Wallpapers -o wal-set"
+
+
+#Screenshot
+	bindsym $mod+Shift+p --no-startup-id exec gnome-screenshot
+
+
+#Lock screen
+	bindsym $mod+Shift+q exec --no-startup-id i3lock --fuzzy --radius=30 --sigma=10 --pointer=default -u
+	exec --no-startup-id xautolock -detectsleep -time 3 -locker "i3lock --fuzzy --radius=30 --sigma=10 --pointer=default -u"
+
+
+#Compton
+	exec --no-startup-id compton --config "$HOME/.config/compton/compton.conf" -b -f
+
+
+#Bar
+	exec --no-startup-id "$HOME/.Scripts/bar"
+
+
+#Load Xresources
+	exec_always --no-startup-id xrdb "$HOME/.Xresources"
+
+
+#URxvt daemon
+	exec urxvtd -q -f

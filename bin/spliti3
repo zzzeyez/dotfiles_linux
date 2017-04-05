@@ -1,0 +1,10 @@
+#!/bin/sh
+RES=$(xwininfo -id `xdotool getwindowfocus` | grep -E '(Width|Height)' | awk '{print $2}')
+var1=$(echo $RES | cut -f1 -d" ")
+var2=$(echo $RES | cut -f2 -d" ")
+
+if [[ $var1 -gt $var2 ]]; then
+    i3-msg "split h"
+else
+    i3-msg "split v"
+fi

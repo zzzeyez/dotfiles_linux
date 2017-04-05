@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# Change mpd song and display a notification.
+#
+# Created by Dylan Araps.
+#
+# Depends on: mpc, libnotify (patched with id support)
+case "$1" in
+    "next") mpc next ;;
+    "prev") mpc prev ;;
+    "toggle") mpc toggle ;;
+    *) printf "%s\n" "Usage: ./song next, ./song prev"; exit ;;
+esac
+
+# The '-r' flag is from a patched version of 'libnotify'.
+# '-r' lets you replace notifications using the same id.
+case "$1" in
+    "toggle")
+	    mpc status | grep -F "[playing]" && status="$(mpc current)"
+        notify.sh -r 1 -t 0 "${status:-Paused}"
+    ;;
+esac

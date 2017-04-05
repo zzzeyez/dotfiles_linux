@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Options
+w="$(iwgetid -r | wc -c)*5"
+width=$((${w}+10))
+height="12"
+font="-benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO8859-1"
+
+# Get monitor width so we can center the bar.
+resolution="$(xrandr --nograb --current | awk '/\*/ {printf $1; exit}')"
+monitor_width="${resolution/x*}"
+offset="$((monitor_width / 2 - width + 166))"
+geometry="${width}x${height}+827+6"
+
+lan() {
+	iwgetid -r
+}
+
+while :; do
+	BAR="%{c}$(lan)"
+	echo -e $BAR
+	sleep 1
+done |\
+
+# Launch lemonbar.
+lemonbar -d -g "$geometry" -f "$font" -B "${1:-#202020}" -F "${2:-#ffffffff}" -n "bar_lan" # &
+
+
+# Move lemonbar down a layer since '-d' on i3 has an always on top side-effect.
+sleep 0
+xdo lower -a "bar_lan"
+

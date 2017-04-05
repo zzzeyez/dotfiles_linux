@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+while :; do
+	BAR="%{c}"
+	echo -e $BAR
+	sleep 1
+done |\
+
+# Launch lemonbar.
+lemonbar -g "1x18+0+0" -B "#00000000" -F "#00000000" -n "bar_space" # &
+
+# Move lemonbar down a layer since '-d' on i3 has an always on top side-effect.
+sleep 0
+xdo lower -a "bar_space"
+

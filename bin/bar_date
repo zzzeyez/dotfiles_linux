@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# Options
+width="38"
+height="12"
+font="-benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO8859-1"
+
+# Get monitor width so we can center the bar.
+resolution="$(xrandr --nograb --current | awk '/\*/ {printf $1; exit}')"
+monitor_width="${resolution/x*}"
+offset="$((monitor_width / 2 - width + 64))"
+geometry="${width}x${height}+${offset:-860}+6"
+
+day() {
+	date +"%m/%d"
+}
+
+while :; do
+	BAR="%{c}$(day)"
+	echo -e $BAR
+	sleep 1
+done |\
+
+
+# Launch lemonbar.
+lemonbar -d -g "$geometry" -f "$font" -B "${1:-#202020}" -F "${2:-#ffffffff}" -n "bar_date" # &
+
+# Move lemonbar down a layer since '-d' on i3 has an always on top side-effect.
+sleep 0
+xdo lower -a "bar_date"
+

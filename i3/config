@@ -1,0 +1,339 @@
+# i3wm config
+# by Daniel Neemann
+
+###########################################################
+#                                                         #
+#                         Layout                          #
+#                                                         #
+###########################################################
+
+
+# Default font / This also affects titlebar size
+font pango:Overpass 6
+
+# gaps
+gaps inner 7
+gaps outer 0
+
+# titlebar font
+for_window [class=".*"] title_format "<span font='Artwiz Lemon 7'> > %title</span>"
+
+# border
+for_window [class="^.*"] border normal 0
+#for_window [class="^.*"] border pixel 5
+#for_window [class="^Chromium.*"] border pixel 0
+
+#i3wm
+for_window [class="^.*"] fullscreen disable
+for_window [class="^.*"] floating disable
+#for_window [class="^.*"] focus
+for_window [class="^.*"] exec spliti3
+#for_window [class="^.*"] layout toggle split
+
+
+###########################################################
+#                                                         #
+#                         Colors                          #
+#                                                         #
+###########################################################
+
+
+# change config
+#bindsym $mod+0 exec --no-startup-id "cat ~/.config/i3/lightconfig > ~/.config/i3/config && i3-msg reload"
+	
+# get colors from xresources
+set_from_resource $bgfoc i3wm.color15 #f0f0f0
+set_from_resource $bg i3wm.color0 #f0f0f0
+set_from_resource $txt i3wm.color8 #f0f0f0
+set_from_resource $txtfoc i3wm.color0 #f0f0f0
+	
+# manual colors
+#set $bg #222222
+#set $txt #777777
+#set $bgfoc #333333
+#set $txtfoc #999999
+
+# class                 border  backgr. text    indicator child_border
+client.focused          $bgfoc  $bgfoc  $txtfoc $bgfoc    $bgfoc
+client.focused_inactive $bgfoc  $bgfoc  $bgfoc  $bgfoc    $bgfoc
+client.unfocused        $bgfoc  $bgfoc  $bgfoc  $bgfoc    $bgfoc
+client.urgent           $bg     $bg     $txt    $bg       $bg
+client.placeholder      $bg     $bg     $txt    $bg       $bg
+client.background       $bg
+
+
+###########################################################
+#                                                         #
+#                   Wallpaper and Colors                  #
+#                                                         #
+###########################################################
+
+
+#Set new wallpaper and generate system colors from it
+bindsym $mod+d exec --no-startup-id "wald -i $HOME/Pictures/Wallpapers/All/ -o wal-set"
+bindsym $mod+Shift+d exec --no-startup-id "wal -i $HOME/Pictures/Wallpapers/All/ -o wal-set"
+
+#Generate system colors and gradient wallpaper from a random image
+bindsym $mod+Shift+e exec --no-startup-id "wal -i $HOME/Pictures/Wallpapers/All/ -o wal-set && solidbg 1g"
+bindsym $mod+e exec --no-startup-id "wald -i $HOME/Pictures/Wallpapers/All/ -o wal-set && solidbg 1g"
+
+#Reapply the wallpaper and system colors in cache
+bindsym $mod+9 exec --no-startup-id "wald -i $(< ${HOME}/.cache/wal/wal) -o wal-set"
+bindsym $mod+Shift+9 exec --no-startup-id "wal -i $(< ${HOME}/.cache/wal/wal) -o wal-set"
+
+#Select a system color as wallpaper
+bindsym $mod+Shift+0 exec notify.sh -r 1 -t 0 "Select a wallpaper color with keys 1-9" && i3-msg mode wallpaper
+bindsym $mod+0 exec --no-startup-id "solidbg 1ig"
+
+mode "wallpaper" {
+
+	# Solid colors
+	bindsym 1 exec --no-startup-id "solidbg 1"
+	bindsym 2 exec --no-startup-id "solidbg 2"
+	bindsym 3 exec --no-startup-id "solidbg 3"
+	bindsym 4 exec --no-startup-id "solidbg 4"
+	bindsym 5 exec --no-startup-id "solidbg 5"
+	bindsym 6 exec --no-startup-id "solidbg 6"
+	bindsym 7 exec --no-startup-id "solidbg 7"
+	bindsym 8 exec --no-startup-id "solidbg 0"
+
+	# Gradient colors
+	bindsym $mod+1 exec --no-startup-id "solidbg 1g"
+	bindsym $mod+2 exec --no-startup-id "solidbg 2g"
+	bindsym $mod+3 exec --no-startup-id "solidbg 3g"
+	bindsym $mod+4 exec --no-startup-id "solidbg 4g"
+	bindsym $mod+5 exec --no-startup-id "solidbg 5g"
+	bindsym $mod+6 exec --no-startup-id "solidbg 6g"
+	bindsym $mod+7 exec --no-startup-id "solidbg 7g"
+
+	# Inverted gradient
+	bindsym $mod+Shift+1 exec --no-startup-id "solidbg 1ig"
+	bindsym $mod+Shift+2 exec --no-startup-id "solidbg 2ig"
+	bindsym $mod+Shift+3 exec --no-startup-id "solidbg 3ig"
+	bindsym $mod+Shift+4 exec --no-startup-id "solidbg 4ig"
+	bindsym $mod+Shift+5 exec --no-startup-id "solidbg 5ig"
+	bindsym $mod+Shift+6 exec --no-startup-id "solidbg 6ig"
+	bindsym $mod+Shift+7 exec --no-startup-id "solidbg 7ig"
+
+	# Exit
+	bindsym Escape exec notify.sh -r 1 -t 0 "Wallpaper mode is closed" && i3-msg mode "default"	
+
+}
+
+# Get palettes and wallpaper from cache on boot
+exec --no-startup-id "wal -i $(< ${HOME}/.cache/wal/wal) -o wal-set"
+exec --no-startup-id xrdb "$HOME/.Xresources"
+
+
+###########################################################
+#                                                         #
+#                    Window management                    #
+#                                                         #
+#
+###########################################################
+
+
+# Mod button
+set $mod control
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# kill focused window
+bindsym $mod+q kill
+
+# change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Alt-tab behavior
+bindsym $mod+Tab workspace next
+
+# move focused window
+bindsym $mod+Shift+Left move left 30px
+bindsym $mod+Shift+Down move down 30px
+bindsym $mod+Shift+Up move up 30px
+bindsym $mod+Shift+Right move right 30px
+
+# enter fullscreen mode for the focused container
+bindsym $mod+Shift+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+#bindsym $mod+5 layout stacking
+#bindsym $mod+4 layout tabbed
+#bindsym $mod+Shift+z layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+
+# reload the configuration file
+bindsym $mod+Shift+z reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+x restart
+
+
+###########################################################
+#                                                         #
+#         Stuff I don't use but want to remember          #
+#                                                         #
+###########################################################
+
+
+# change focus between tiling / floating windows
+#bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+#bindsym $mod+Shift+a focus parent
+
+# focus the child container
+#bindsym $mod+Shift+d focus child
+
+# Toggle sticky windows
+#bindsym $mod+Shift+e sticky toggle
+
+# split in horizontal orientation
+#bindsym $mod+Shift+h split h
+
+# split in vertical orientation
+#bindsym $mod+Shift+v split v
+
+# assign programs to specific workspaces
+#assign [class="^Thunar$"] Files
+
+
+###########################################################
+#                                                         #
+#                     Resize window                       #
+#                                                         #
+###########################################################
+
+
+bindsym $mod+Shift+r exec --no-startup-id notify.sh -r 1 -t 0 "Resize mode" && i3-msg mode "resize"
+
+mode "resize" {
+
+# Resize
+bindsym Left resize shrink width 1 px or 1 ppt
+bindsym Down resize grow height 1 px or 1 ppt
+bindsym Up resize shrink height 1 px or 1 ppt
+bindsym Right resize grow width 1 px or 1 ppt
+
+# Gap size
+bindsym $mod+Up gaps outer current minus 2
+bindsym $mod+Down gaps outer current plus 2
+bindsym $mod+Right gaps inner current plus 2
+bindsym $mod+Left gaps inner current minus 2
+
+# Gap size
+bindsym $mod+Shift+Up gaps outer current minus 100
+bindsym $mod+Shift+Down gaps outer current plus 100
+bindsym $mod+Shift+Right gaps inner current plus 100
+bindsym $mod+Shift+Left gaps inner current minus 100
+
+# Exit
+bindsym Escape exec --no-startup-id notify.sh -r 1 -t 0 "Resize mode is closed" && i3-msg mode "default"
+	
+}
+
+
+###########################################################
+#                                                         #
+#                     Function Keus                       #
+#                                                         #
+###########################################################
+
+
+# Volume keys
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && vol
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2% && vol
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2% && vol
+
+# Music player
+bindsym XF86AudioPlay exec --no-startup-id song toggle
+bindsym XF86AudioNext exec --no-startup-id song next
+bindsym XF86AudioPrev exec --no-startup-id song prev
+
+
+###########################################################
+#                                                         #
+#                     Launch programs                     #
+#                                                         #
+###########################################################
+
+
+#Internet Browser
+bindsym $mod+t exec chromium --kiosk /home/zzzeyez/.Scripts/home/index.html && i3-msg [class="^Chromium$"] focus
+bindsym $mod+Shift+t exec chromium /home/zzzeyez/.Scripts/home/index.html && i3-msg [class="^Chromium$"] focus
+
+#File Manager
+bindsym $mod+Shift+n exec urxvtc -name Sterm -e bash -c "ranger"
+bindsym $mod+n exec urxvtc -name Fterm -geometry 75x25 -e bash -c "ranger"
+
+#Launcher
+bindsym $mod+space exec rofi -show run -hide-scrollbar -width 170 -lines 4 -font "Artwiz Lemon 7" -padding 10 -separator-style none
+
+#URxvt
+bindsym $mod+Return exec urxvtc -name Fterm -geometry 60x15
+bindsym $mod+Shift+Return exec urxvtc -name Sterm -geometry 50x20
+
+#Screenshot
+bindsym $mod+Shift+p exec --no-startup-id scr
+
+#Lock screen
+bindsym $mod+Shift+q exec --no-startup-id slimlock
+#d
+#exec --no-startup-id xautolock -detectsleep -time 5 -locker "slimlock"
+
+
+###########################################################
+#                                                         #
+#                   Background Programs                   #
+#                                                         #
+###########################################################
+
+
+#URxvtd
+exec --no-startup-id urxvtd -q -f
+
+#Compton
+exec --no-startup-id compton --config "$HOME/.config/compton/compton.conf" -b
+
+#Music Player Daemon
+exec --no-startup-id mpdscribble
+
+#Check for updates
+exec --no-startup-id aur.sh
+
+#Low battery notification
+exec --no-startup-id battery
+
+#Get palettes
+exec --no-startup-id "wal -i $(< ${HOME}/.cache/wal/wal) -o wal-set"
+exec --no-startup-id xrdb "$HOME/.Xresources"
+
+#Dunst
+exec_always --no-startup-id xdo lower -a "Dunst"
+
+#Compose key
+exec --no-startup-id setxkbmap -option compose:caps
+
+#Xflux
+exec --no-startup-id redshift -l 39.7200830:-104.9858810
+
