@@ -1,0 +1,62 @@
+! urxvt*loginShell:true
+!
+ ! Anti alias
+ Xft.lcdfilter: lcddefault
+ Xft.antialias: 1
+ Xft.autohint: 0
+ Xft.hinting: true
+ Xft.hintstyle: hintfull
+ Xft.rgba: none
+ Xft.dpi: 96
+
+ ! Transparency
+ ! Fterm*inheritPixmap: true  
+ ! Fterm*tintColor: white
+ ! Fterm*transparent: true
+ ! Fterm*shading: 8
+ ! Fterm*foreground: #ffffff
+
+ ! True Transparency
+ URxvt.depth: 32
+ ! URxvt.background: [96]#5f5f5f
+
+
+ ! Set the font
+ Sterm.font: xft:Fira Code Medium:pixelsize=14:antialias=true
+ Fterm.font: xft:Dina:pixelsize=11:antialias=false
+ URxvt*boldFont:
+ Sterm*letterSpace: -1
+ ! Fterm*letterspace: 1
+
+ ! Disable border
+ URxvt*borderless: 1
+
+ ! Disable scrollbar
+ URxvt.scrollBar: false
+
+ ! Set terminal padding
+ URxvt.internalBorder: 20
+ Fterm*internalBorder: 10
+ ! Sterm*internalBorder: 20
+
+ ! Font change hotkeys
+ ! URxvt.keysym.C-9: 	command:\033]39;#dedede\007
+ ! URxvt.keysym.C-parenleft: 	command:\033]39;#000000\007
+ URxvt.keysym.C-underscore: 	command:\033]710;xft:tewi:pixelsize=11:antialias=false\007
+ URxvt.keysym.C-plus:	command:\033]710;xft:benis uushi:pixelsize=10:antialias=false\007
+ URxvt.keysym.C-minus:	command:\033]710;xft:artwiz lemon:pixelsize=10:antialias=false\007
+ URxvt.keysym.C-equal:	command:\033]710;xft:Dina:pixelsize=11:antialias=false\007
+
+ ! Enables copy/paste with Ctrl-Shift-C/V
+ URxvt.iso14755: false
+ URxvt.iso14755_52: false
+ URxvt.perl-lib: /usr/lib/urxvt/perl/
+ URxvt.perl-ext: default,clipboard,matcher
+ URxvt.keysym.M-c: perl:clipboard:copy
+ URxvt.keysym.M-v: perl:clipboard:paste
+ URxvt.url-launcher: /usr/bin/chromium
+ URxvt.matcher.button: 1
+
+
+ ! Sxiv
+ sxiv.font: Artwiz Lemon:pixelsize=11
